@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 
+import { Button, Grid } from '@nextui-org/react';
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
@@ -18,6 +19,13 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href='https://nextjs.org'>Next.js!</a>
         </h1>
+        <Grid.Container gap={2}>
+          <Grid>
+            <Button color='success' auto>
+              Success
+            </Button>
+          </Grid>
+        </Grid.Container>
 
         <p className={styles.description}>
           Get started by editing{' '}
