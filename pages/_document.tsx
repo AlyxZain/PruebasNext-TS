@@ -1,20 +1,13 @@
 /** @format */
 
-import NextDocument, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  DocumentContext,
-  DocumentInitialProps,
-} from 'next/document';
 import React from 'react';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { CssBaseline } from '@nextui-org/react';
 
 type Props = {};
 
-export default class Document extends NextDocument<Props> {
-  static async getInitialProps(ctx: DocumentContext): Promise<any> {
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx: any) {
     const initialProps = await Document.getInitialProps(ctx);
     return {
       ...initialProps,
@@ -23,7 +16,7 @@ export default class Document extends NextDocument<Props> {
   }
   render() {
     return (
-      <Html>
+      <Html lang='en'>
         <Head>{CssBaseline.flush()}</Head>
         <body>
           <Main />
