@@ -1,10 +1,34 @@
 /** @format */
 
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 export default function Home(pokemon: React.ReactNode) {
+  const router = useRouter();
+
+  let token: string = '';
+
+  if (typeof window !== 'undefined') {
+    // You now have access to `window`
+    if (window.sessionStorage) {
+      const local = sessionStorage.getItem('token');
+      if (typeof local === 'string') {
+        token = local;
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (token.length > 0) {
+      console.log('logeado', token);
+    } else {
+      router.push('/login');
+    }
+  }, []);
+
   return (
     <>
       <Head>
