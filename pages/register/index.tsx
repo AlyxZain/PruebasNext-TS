@@ -49,7 +49,7 @@ export default function Register() {
           // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           data: {
             email,
-            userName,
+            username: userName,
             password,
           },
         });
