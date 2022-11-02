@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import { Notify } from '../../components/Notify';
 
 export default function Login() {
   const router = useRouter();
@@ -118,6 +119,7 @@ export default function Login() {
           <Link href='/register'>Register</Link>
         </div>
       </form>
+      <Notify />
     </div>
   );
 }
