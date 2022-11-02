@@ -27,12 +27,8 @@ export default function Login() {
       const { email, password } = formData;
 
       const index = async () => {
-        const logeo = await axios.post(
-          `https://back-next-app.vercel.app/api/auth/login`,
-          {
-            email,
-            password,
-          }
+        const logeo = await axios.get(
+          `https://back-next-app.vercel.app/api/auth/login?email=${email}&password=${password}`
         );
 
         // const registro = await axios({
