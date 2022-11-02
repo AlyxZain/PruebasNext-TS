@@ -8,13 +8,36 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as Yup from 'yup';
-
-// import '../Login/Login.styles.css';
+import { toast } from 'react-toastify';
+import { Notify } from '../../components/Notify';
 
 export default function Register() {
-  const [data, setData] = useState([]);
-
   const router = useRouter();
+
+  const errorToast = (message: string) => {
+    toast.error(message, {
+      position: 'top-center',
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
+  };
+
+  const successToast = (message: string) => {
+    toast.success(message, {
+      position: 'top-center',
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+      theme: 'light',
+    });
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -38,8 +61,6 @@ export default function Register() {
       // teamID: '',
     }),
     onSubmit: (formData) => {
-      console.log(formData);
-
       const { email, username, password } = formData;
 
       const index = async () => {
@@ -51,19 +72,23 @@ export default function Register() {
             password,
           }
         );
-
-        // const registro = await axios({
-        //   method: 'post',
-        //   url: `https://back-next-app.vercel.app/api/auth/register`,
-        //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        //   data: {
-        //     email,
-        //     username: userName,
-        //     password,
-        //   },
-        // });
-
-        console.log(registro);
+        try {
+          if (registro.data?.token) {
+            successToast(
+              "You've successfully registered! You're now logged in."
+            );
+            sessionStorage.setItem('token', registro.data.token);
+            setTimeout(() => router.push('/'), 3700);
+          } else {
+            errorToast(registro.data);
+          }
+        } catch (error) {
+          let errorb = '';
+          if (typeof error === 'string') {
+            errorb = error;
+          }
+          errorToast(errorb);
+        }
       };
 
       index();
@@ -81,46 +106,51 @@ export default function Register() {
   } = formik;
 
   return (
-    <div className='auth'>
-      <form onSubmit={handleSubmit}>
-        <h1>Register</h1>
-        <div>
-          <label>Email</label>
-          <input
-            name='email'
-            type='email'
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.email && touched.email && <div>{errors.email}</div>}
-        </div>
+    <>
+      <div className='auth'>
+        <form onSubmit={handleSubmit}>
+          <h1>Register</h1>
+          <div>
+            <label>Email</label>
+            <input
+              name='email'
+              type='email'
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            {errors.email && touched.email && <div>{errors.email}</div>}
+          </div>
 
-        <div>
-          <label>User Name</label>
-          <input
-            name='username'
-            type='text'
-            value={values.username}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.username && touched.username && <div>{errors.username}</div>}
-        </div>
+          <div>
+            <label>User Name</label>
+            <input
+              name='username'
+              type='text'
+              value={values.username}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            {errors.username && touched.username && (
+              <div>{errors.username}</div>
+            )}
+          </div>
 
-        <div>
-          <label>Password</label>
-          <input
-            name='password'
-            type='password'
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.password && touched.password && <div>{errors.password}</div>}
-        </div>
+          <div>
+            <label>Password</label>
+            <input
+              name='password'
+              type='password'
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            {errors.password && touched.password && (
+              <div>{errors.password}</div>
+            )}
+          </div>
 
-        {/* <div>
+          {/* <div>
           <label>Rol</label>
           <select
             name='role'
@@ -135,7 +165,7 @@ export default function Register() {
           {errors.role && touched.role && <div>{errors.role}</div>}
         </div> */}
 
-        {/* <div>
+          {/* <div>
           <label>Continent</label>
           <select
             name='continent'
@@ -153,7 +183,7 @@ export default function Register() {
           )}
         </div> */}
 
-        {/* <div>
+          {/* <div>
           <label>Region</label>
           <select
             name='region'
@@ -170,18 +200,20 @@ export default function Register() {
           {errors.region && touched.region && <div>{errors.region}</div>}
         </div> */}
 
-        <input
-          type='hidden'
-          name='teamID'
-          value='9cdb108-f924-4383-947d-8f0c651d0dad'
-        />
-        <div>
-          <button type='submit'>Enviar</button>
-        </div>
-        <div>
-          <Link href='/login'>Login</Link>
-        </div>
-      </form>
-    </div>
+          <input
+            type='hidden'
+            name='teamID'
+            value='9cdb108-f924-4383-947d-8f0c651d0dad'
+          />
+          <div>
+            <button type='submit'>Enviar</button>
+          </div>
+          <div>
+            <Link href='/login'>Login</Link>
+          </div>
+        </form>
+      </div>
+      <Notify />
+    </>
   );
 }

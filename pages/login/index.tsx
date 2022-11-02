@@ -71,8 +71,6 @@ export default function Login() {
           }
           errorToast(errorb);
         }
-
-        console.log(logeo);
       };
 
       index();
