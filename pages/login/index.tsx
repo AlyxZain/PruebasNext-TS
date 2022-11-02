@@ -69,6 +69,8 @@ export default function Login() {
           if (typeof error === 'string') {
             errorb = error;
           }
+          console.log('errorvB', error);
+          console.log('errorvB2', errorb);
           errorToast(errorb);
         }
 
