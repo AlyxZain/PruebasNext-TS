@@ -14,6 +14,26 @@ import { Notify } from '../../components/Notify';
 export default function Register() {
   const router = useRouter();
 
+  let token: string = '';
+
+  if (typeof window !== 'undefined') {
+    // You now have access to `window`
+    if (window.sessionStorage) {
+      const local = sessionStorage.getItem('token');
+      if (typeof local === 'string') {
+        token = local;
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (token.length > 0) {
+      router.push('/');
+    } else {
+      console.log('logeado');
+    }
+  }, []);
+
   const errorToast = (message: string) => {
     toast.error(message, {
       position: 'top-center',

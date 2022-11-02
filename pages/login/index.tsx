@@ -7,10 +7,31 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 import { Notify } from '../../components/Notify';
 
 export default function Login() {
   const router = useRouter();
+
+  let token: string = '';
+
+  if (typeof window !== 'undefined') {
+    // You now have access to `window`
+    if (window.sessionStorage) {
+      const local = sessionStorage.getItem('token');
+      if (typeof local === 'string') {
+        token = local;
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (token.length > 0) {
+      router.push('/');
+    } else {
+      console.log('logeado');
+    }
+  }, []);
 
   const errorToast = (message: string) => {
     toast.error(message, {
