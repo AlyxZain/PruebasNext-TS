@@ -39,6 +39,22 @@ export default function Register() {
     }),
     onSubmit: (formData) => {
       console.log(formData);
+
+      const { email, userName, password } = formData;
+
+      const index = async () => {
+        const registro = await axios.post(
+          `https://back-next-app.vercel.app/api/auth/register`,
+          {
+            email,
+            userName,
+            password,
+          }
+        );
+        console.log(registro);
+      };
+
+      index();
     },
   });
 
