@@ -33,6 +33,7 @@ export default function Login() {
       pauseOnHover: true,
       draggable: false,
       progress: undefined,
+      theme: 'light',
     });
   };
 
