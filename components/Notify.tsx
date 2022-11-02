@@ -10,7 +10,7 @@ export function Notify() {
       autoClose={1000}
       hideProgressBar={false}
       newestOnTop={false}
-      closeOnClick
+      closeOnClick={false}
       rtl={false}
       pauseOnFocusLoss
       draggable
