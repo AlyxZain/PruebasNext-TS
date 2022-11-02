@@ -6,9 +6,34 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const router = useRouter();
+
+  const errorToast = (message: string) => {
+    toast.error(message, {
+      position: 'top-center',
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
+  };
+
+  const successToast = (message: string) => {
+    toast.success(message, {
+      position: 'top-center',
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -22,25 +47,28 @@ export default function Login() {
       password: Yup.string().min(6).required('Password is a required field'),
     }),
     onSubmit: (formData) => {
-      console.log(formData);
-
       const { email, password } = formData;
 
       const index = async () => {
         const logeo = await axios.get(
           `https://back-next-app.vercel.app/api/auth/login?email=${email}&password=${password}`
         );
-
-        // const registro = await axios({
-        //   method: 'post',
-        //   url: `https://back-next-app.vercel.app/api/auth/register`,
-        //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        //   data: {
-        //     email,
-        //     username: userName,
-        //     password,
-        //   },
-        // });
+        try {
+          if (logeo.data?.token) {
+            successToast("You've successfully logged in!");
+            sessionStorage.setItem('token', logeo.data.token);
+            setTimeout(() => router.push('/'), 3700);
+          } else {
+            console.log('errorA', logeo);
+            // errorToast(logeo.response.data)
+          }
+        } catch (error) {
+          let errorb = '';
+          if (typeof error === 'string') {
+            errorb = error;
+          }
+          errorToast(errorb);
+        }
 
         console.log(logeo);
       };
