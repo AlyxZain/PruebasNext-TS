@@ -37,6 +37,7 @@ export default function Home(pokemon: React.ReactNode) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       {console.log(pokemon)}
+      <h1>Holamundo</h1>
     </>
   );
 }
