@@ -19,7 +19,7 @@ export default function Register() {
   const formik = useFormik({
     initialValues: {
       email: '',
-      userName: '',
+      username: '',
       password: '',
       role: '',
       continent: '',
@@ -30,7 +30,7 @@ export default function Register() {
       email: Yup.string()
         .email('Email must be a valid email')
         .required('Email is a required field'),
-      userName: Yup.string().min(6).required('Username is a required field'),
+      username: Yup.string().min(6).required('Username is a required field'),
       password: Yup.string().min(6).required('Password is a required field'),
       // role: '',
       // continent: '',
@@ -40,19 +40,31 @@ export default function Register() {
     onSubmit: (formData) => {
       console.log(formData);
 
-      const { email, userName, password } = formData;
+      const { email, username, password } = formData;
 
       const index = async () => {
-        const registro = await axios({
-          method: 'post',
-          url: `https://back-next-app.vercel.app/api/auth/register`,
-          // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          data: {
-            email,
-            username: userName,
-            password,
-          },
-        });
+        const registro = await axios.post(
+          `https://back-next-app.vercel.app/api/auth/register`,
+          {
+            data: {
+              email,
+              username,
+              password,
+            },
+          }
+        );
+
+        // const registro = await axios({
+        //   method: 'post',
+        //   url: `https://back-next-app.vercel.app/api/auth/register`,
+        //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        //   data: {
+        //     email,
+        //     username: userName,
+        //     password,
+        //   },
+        // });
+
         console.log(registro);
       };
 
@@ -89,13 +101,13 @@ export default function Register() {
         <div>
           <label>User Name</label>
           <input
-            name='userName'
+            name='username'
             type='text'
-            value={values.userName}
+            value={values.username}
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.userName && touched.userName && <div>{errors.userName}</div>}
+          {errors.username && touched.username && <div>{errors.username}</div>}
         </div>
 
         <div>
