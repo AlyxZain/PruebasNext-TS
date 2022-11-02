@@ -62,15 +62,13 @@ export default function Login() {
             setTimeout(() => router.push('/'), 3700);
           } else {
             console.log('errorA', logeo);
-            // errorToast(logeo.response.data)
+            errorToast(logeo.data);
           }
         } catch (error) {
           let errorb = '';
           if (typeof error === 'string') {
             errorb = error;
           }
-          console.log('errorvB', error);
-          console.log('errorvB2', errorb);
           errorToast(errorb);
         }
 
