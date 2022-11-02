@@ -1,47 +1,67 @@
 /** @format */
 
+import axios from 'axios';
 import { useFormik } from 'formik';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import * as Yup from 'yup';
 
 export default function Login() {
   const router = useRouter();
 
-  const initialValues = {
-    email: '',
-    password: '',
-  };
-
-  const validate = (values: any) => {
-    const errors = {
+  const formik = useFormik({
+    initialValues: {
       email: '',
       password: '',
-    };
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .email('Email must be a valid email')
+        .required('Email is a required field'),
+      password: Yup.string().min(6).required('Password is a required field'),
+    }),
+    onSubmit: (formData) => {
+      console.log(formData);
 
-    if (!values.email) {
-      errors.email = 'Email is required';
-    }
-    if (!values.password) {
-      errors.password = 'Password is required';
-    }
+      const { email, password } = formData;
 
-    return errors;
-  };
+      const index = async () => {
+        const logeo = await axios.post(
+          `https://back-next-app.vercel.app/api/auth/login`,
+          {
+            email,
+            password,
+          }
+        );
 
-  const onSubmit = () => {
-    localStorage.setItem('logged', 'yes');
-    // navigate('/', { replace: true });
-    router.push('/');
-  };
+        // const registro = await axios({
+        //   method: 'post',
+        //   url: `https://back-next-app.vercel.app/api/auth/register`,
+        //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        //   data: {
+        //     email,
+        //     username: userName,
+        //     password,
+        //   },
+        // });
 
-  const formik = useFormik({
-    initialValues,
-    validate,
-    onSubmit,
+        console.log(logeo);
+      };
+
+      index();
+    },
   });
 
-  const { values, handleChange, handleSubmit, errors, touched } = formik;
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    handleReset,
+    handleSubmit,
+    errors,
+    touched,
+  } = formik;
 
   return (
     <div className='auth'>
