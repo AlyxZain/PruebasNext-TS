@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import { Header } from '../components/Header/Header';
+import { Task } from '../components/Task/Task';
 
 export default function Home(pokemon: React.ReactNode) {
   const router = useRouter();
@@ -37,9 +38,10 @@ export default function Home(pokemon: React.ReactNode) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       {console.log(pokemon)}
-      <div className='container'>
+      <>
         <Header />
-      </div>
+        <Task />
+      </>
     </>
   );
 }

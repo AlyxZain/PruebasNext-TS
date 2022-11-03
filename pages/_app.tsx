@@ -3,6 +3,8 @@
 import '../styles/globals.css';
 import './login/Login.css';
 import '../components/Header/Header.css';
+import '../components/Task/Task.css';
+import '../components/TaskForm/TaskForm.css';
 
 // import type { AppProps } from 'next/app';
 
