@@ -3,24 +3,41 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
 import { Task } from '../components/Task/Task';
 
-export default function Home(task: React.ReactNode, pokemon: React.ReactNode) {
+export default function Home(pokemon: React.ReactNode) {
   const router = useRouter();
 
   let token: string = '';
+  let email: string = '';
+  const [tareas, setTareas] = useState('');
 
   if (typeof window !== 'undefined') {
     // You now have access to `window`
     if (window.sessionStorage) {
-      const local = sessionStorage.getItem('token');
-      if (typeof local === 'string') {
-        token = local;
+      const tokenlocal = sessionStorage.getItem('token');
+      const emaillocal = sessionStorage.getItem('email');
+      if (typeof tokenlocal === 'string') {
+        token = tokenlocal;
+      }
+      if (typeof emaillocal === 'string') {
+        email = emaillocal;
       }
     }
   }
+  const task = async () => {
+    if (email.length > 0 && token.length > 0) {
+      const res: any = await axios.get(
+        `https://back-next-app.vercel.app/api/task/all?${email}`,
+        {
+          headers: { 'x-access-token': `${token}` },
+        }
+      );
+      setTareas(res);
+    }
+  };
 
   useEffect(() => {
     if (token.length > 0) {
@@ -28,6 +45,8 @@ export default function Home(task: React.ReactNode, pokemon: React.ReactNode) {
     } else {
       router.push('/login');
     }
+
+    task();
   }, []);
 
   return (
@@ -50,18 +69,9 @@ export default function Home(task: React.ReactNode, pokemon: React.ReactNode) {
 export const getServerSideProps = async (contex: any) => {
   const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/ditto`);
 
-  const token = sessionStorage.getItem('token');
-  const email = sessionStorage.getItem('email');
-  const task = await axios.get(
-    `https://back-next-app.vercel.app/api/task/all?${email}`,
-    {
-      headers: { 'x-access-token': `${token}` },
-    }
-  );
   return {
     props: {
       pokemon: res?.data,
-      task,
     },
   };
 };
