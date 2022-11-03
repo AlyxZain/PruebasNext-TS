@@ -14,3 +14,9 @@ header > img {
 header > div {
   cursor: pointer;
 }
+
+@media (min-width: 1200px) {
+  header > img {
+    width: 120px;
+  }
+}
