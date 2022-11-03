@@ -28,10 +28,13 @@ export const Header = () => {
   };
 
   return (
-    <header>
+    <>
+      <header>
+        <span>Meow</span>
+        <div onClick={logout}>X</div>
+      </header>
+
       <Notify />
-      <span>Meow</span>
-      <div onClick={logout}>X</div>
-    </header>
+    </>
   );
 };
