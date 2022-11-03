@@ -98,6 +98,7 @@ export default function Register() {
               "You've successfully registered! You're now logged in."
             );
             sessionStorage.setItem('token', registro.data.token);
+            sessionStorage.setItem('email', email);
             setTimeout(() => router.push('/'), 3700);
           } else {
             errorToast(registro.data);

@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { Header } from '../components/Header/Header';
 import { Task } from '../components/Task/Task';
 
-export default function Home(pokemon: React.ReactNode) {
+export default function Home(task: React.ReactNode, pokemon: React.ReactNode) {
   const router = useRouter();
 
   let token: string = '';
@@ -38,9 +38,10 @@ export default function Home(pokemon: React.ReactNode) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       {console.log(pokemon)}
+      {console.log(task)}
       <>
         <Header />
-        <Task />
+        <Task task={task} />
       </>
     </>
   );
@@ -49,9 +50,18 @@ export default function Home(pokemon: React.ReactNode) {
 export const getServerSideProps = async (contex: any) => {
   const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/ditto`);
 
+  const token = sessionStorage.getItem('token');
+  const email = sessionStorage.getItem('email');
+  const task = await axios.get(
+    `https://back-next-app.vercel.app/api/task/all?${email}`,
+    {
+      headers: { 'x-access-token': `${token}` },
+    }
+  );
   return {
     props: {
       pokemon: res?.data,
+      task,
     },
   };
 };

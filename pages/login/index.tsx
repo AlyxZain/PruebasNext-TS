@@ -80,6 +80,7 @@ export default function Login() {
           if (logeo.data?.token) {
             successToast("You've successfully logged in!");
             sessionStorage.setItem('token', logeo.data.token);
+            sessionStorage.setItem('email', email);
             setTimeout(() => router.push('/'), 3700);
           } else {
             console.log('errorA', logeo);
