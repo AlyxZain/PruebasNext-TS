@@ -2,6 +2,7 @@
 
 import '../styles/globals.css';
 import './login/Login.css';
+import '../components/Header/Header.css';
 
 // import type { AppProps } from 'next/app';
 

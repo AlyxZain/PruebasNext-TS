@@ -3,8 +3,8 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useEffect } from 'react';
+import { Header } from '../components/Header/Header';
 
 export default function Home(pokemon: React.ReactNode) {
   const router = useRouter();
@@ -37,7 +37,9 @@ export default function Home(pokemon: React.ReactNode) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       {console.log(pokemon)}
-      <h1>Holamundo</h1>
+      <div className='container'>
+        <Header />
+      </div>
     </>
   );
 }
